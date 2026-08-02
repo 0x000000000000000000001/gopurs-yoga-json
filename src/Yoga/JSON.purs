@@ -81,7 +81,6 @@ import Record (get)
 import Record.Builder (Builder)
 import Record.Builder as Builder
 import Type.Prelude (Proxy(..))
-import Unsafe.Coerce (unsafeCoerce)
 import Yoga.Tree (Tree)
 import Yoga.Tree as Tree
 
