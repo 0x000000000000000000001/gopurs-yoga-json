@@ -111,6 +111,8 @@ readJSON_ ∷
   ReadForeign a ⇒
   String →
   Maybe a
+readJSON_ = hush <<< readJSON
+
 -- | JSON.stringify
 foreign import unsafeStringify ∷ ∀ a. a → String
 
