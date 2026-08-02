@@ -67,8 +67,8 @@ import Data.Variant (Variant, inj, on)
 import Effect.Exception (message, try)
 import Effect.Uncurried as EU
 import Effect.Unsafe (unsafePerformEffect)
-import Foreign (F, Foreign, ForeignError(..), MultipleErrors, fail, isNull, isUndefined, readArray, readBoolean, readChar, readInt, readNull, readNumber, readString, tagOf, unsafeFromForeign, unsafeReadTagged, unsafeToForeign)
-import Foreign.Index (readProp)
+import Foreign (F, Foreign, ForeignError(..), MultipleErrors, fail, isNull, isUndefined, readArray, readBoolean, readChar, readInt, readNull, readNumber, readString, tagOf, unsafeFromForeign, unsafeReadTagged, unsafeToForeign, unboxForJSON)
+import Foreign.Index (readProp, readIndex)
 import Foreign.Object (Object)
 import Foreign.Object as Object
 import JS.BigInt (BigInt)
@@ -114,13 +114,13 @@ readJSON_ ∷
 readJSON_ = hush <<< readJSON
 
 -- | JSON.stringify
-foreign import _unsafeStringify ∷ ∀ a. a → String
+foreign import _unsafeStringify ∷ ∀ a. (Foreign -> Foreign) -> a → String
 
 -- | JSON.stringify with a number of spaces
-foreign import _unsafePrettyStringify ∷ ∀ a. Int → a → String
+foreign import _unsafePrettyStringify ∷ ∀ a. (Foreign -> Foreign) -> Int → a → String
 
 unsafeStringify ∷ ∀ a. a → String
-unsafeStringify = _unsafeStringify
+unsafeStringify = _unsafeStringify unboxForJSON
 
 -- | Write a JSON string from a type `a`.
 writeJSON ∷
@@ -128,15 +128,16 @@ writeJSON ∷
   WriteForeign a ⇒
   a →
   String
-writeJSON = _unsafeStringify <<< writeImpl
+writeJSON = _unsafeStringify unboxForJSON <<< writeImpl
 
+-- | Write a JSON string from a type `a` with the specified number of spaces.
 writePrettyJSON ∷
   ∀ a.
   WriteForeign a ⇒
   Int →
   a →
   String
-writePrettyJSON spaces = _unsafePrettyStringify spaces <<< writeImpl
+writePrettyJSON spaces = _unsafePrettyStringify unboxForJSON spaces <<< writeImpl
 
 write ∷
   ∀ a.
