@@ -18,9 +18,9 @@ func _ParseJSON(payload string) interface{} {
 	return v
 }
 
-func _UnsafeStringify(unboxFn interface{}) interface{} {
+func _UnsafeStringify(unboxFn func(interface{}) interface{}) interface{} {
 	return func(data interface{}) interface{} {
-		b, err := json.Marshal(unboxFn.(func(interface{}) interface{})(data))
+		b, err := json.Marshal(unboxFn(data))
 		if err != nil {
 			panic(fmt.Sprintf("JSON stringify error: %v", err))
 		}
@@ -28,13 +28,13 @@ func _UnsafeStringify(unboxFn interface{}) interface{} {
 	}
 }
 
-func _UnsafePrettyStringify(unboxFn interface{}) interface{} {
+func _UnsafePrettyStringify(unboxFn func(interface{}) interface{}) interface{} {
 	return func(spaces int, data interface{}) interface{} {
 		indent := ""
 		for i := 0; i < spaces; i++ {
 			indent += " "
 		}
-		b, err := json.MarshalIndent(unboxFn.(func(interface{}) interface{})(data), "", indent)
+		b, err := json.MarshalIndent(unboxFn(data), "", indent)
 		if err != nil {
 			panic(fmt.Sprintf("JSON pretty stringify error: %v", err))
 		}

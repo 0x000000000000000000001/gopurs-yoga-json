@@ -46,7 +46,7 @@ import Data.FoldableWithIndex (foldrWithIndex)
 import Data.FunctorWithIndex (mapWithIndex)
 import Data.Identity (Identity(..))
 import Data.Int as Int
-import Data.Function.Uncurried (Fn1, mkFn1)
+import Unsafe.Coerce (unsafeCoerce)
 import Data.JSDate (JSDate)
 import Data.JSDate as JSDate
 import Data.List.NonEmpty (NonEmptyList, singleton)
@@ -115,13 +115,13 @@ readJSON_ ∷
 readJSON_ = hush <<< readJSON
 
 -- | JSON.stringify
-foreign import _unsafeStringify ∷ ∀ a. Fn1 Foreign Foreign -> a → String
+foreign import _unsafeStringify ∷ ∀ a x y. (x -> y) -> a → String
 
 -- | JSON.stringify with a number of spaces
-foreign import _unsafePrettyStringify ∷ ∀ a. Fn1 Foreign Foreign -> Int → a → String
+foreign import _unsafePrettyStringify ∷ ∀ a x y. (x -> y) -> Int → a → String
 
 unsafeStringify ∷ ∀ a. a → String
-unsafeStringify = _unsafeStringify (mkFn1 unboxForJSON)
+unsafeStringify = _unsafeStringify (unsafeCoerce unboxForJSON)
 
 -- | Write a JSON string from a type `a`.
 writeJSON ∷
@@ -129,7 +129,7 @@ writeJSON ∷
   WriteForeign a ⇒
   a →
   String
-writeJSON = _unsafeStringify (mkFn1 unboxForJSON) <<< writeImpl
+writeJSON = _unsafeStringify (unsafeCoerce unboxForJSON) <<< writeImpl
 
 -- | Write a JSON string from a type `a` with the specified number of spaces.
 writePrettyJSON ∷
@@ -138,7 +138,7 @@ writePrettyJSON ∷
   Int →
   a →
   String
-writePrettyJSON spaces = _unsafePrettyStringify (mkFn1 unboxForJSON) spaces <<< writeImpl
+writePrettyJSON spaces = _unsafePrettyStringify (unsafeCoerce unboxForJSON) spaces <<< writeImpl
 
 write ∷
   ∀ a.
