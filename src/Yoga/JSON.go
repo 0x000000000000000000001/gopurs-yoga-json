@@ -3,6 +3,7 @@ package Yoga_JSON
 import (
 	"encoding/json"
 	"fmt"
+	"gopurs/output/Foreign"
 )
 
 func _Undefined() interface{} {
@@ -18,26 +19,22 @@ func _ParseJSON(payload string) interface{} {
 	return v
 }
 
-func _UnsafeStringify(unboxFn func(interface{}) interface{}) interface{} {
-	return func(data interface{}) interface{} {
-		b, err := json.Marshal(unboxFn(data))
-		if err != nil {
-			panic(fmt.Sprintf("JSON stringify error: %v", err))
-		}
-		return string(b)
+func UnsafeStringify(data interface{}) interface{} {
+	b, err := json.Marshal(Foreign.UnboxForJSON(data))
+	if err != nil {
+		panic(fmt.Sprintf("JSON stringify error: %v", err))
 	}
+	return string(b)
 }
 
-func _UnsafePrettyStringify(unboxFn func(interface{}) interface{}) interface{} {
-	return func(spaces int, data interface{}) interface{} {
-		indent := ""
-		for i := 0; i < spaces; i++ {
-			indent += " "
-		}
-		b, err := json.MarshalIndent(unboxFn(data), "", indent)
-		if err != nil {
-			panic(fmt.Sprintf("JSON pretty stringify error: %v", err))
-		}
-		return string(b)
+func _UnsafePrettyStringify(spaces int, data interface{}) interface{} {
+	indent := ""
+	for i := 0; i < spaces; i++ {
+		indent += " "
 	}
+	b, err := json.MarshalIndent(Foreign.UnboxForJSON(data), "", indent)
+	if err != nil {
+		panic(fmt.Sprintf("JSON pretty stringify error: %v", err))
+	}
+	return string(b)
 }
