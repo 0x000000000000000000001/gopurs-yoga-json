@@ -46,6 +46,7 @@ import Data.FoldableWithIndex (foldrWithIndex)
 import Data.FunctorWithIndex (mapWithIndex)
 import Data.Identity (Identity(..))
 import Data.Int as Int
+import Data.Function.Uncurried (Fn1, mkFn1)
 import Data.JSDate (JSDate)
 import Data.JSDate as JSDate
 import Data.List.NonEmpty (NonEmptyList, singleton)
@@ -68,7 +69,7 @@ import Effect.Exception (message, try)
 import Effect.Uncurried as EU
 import Effect.Unsafe (unsafePerformEffect)
 import Foreign (F, Foreign, ForeignError(..), MultipleErrors, fail, isNull, isUndefined, readArray, readBoolean, readChar, readInt, readNull, readNumber, readString, tagOf, unsafeFromForeign, unsafeReadTagged, unsafeToForeign, unboxForJSON)
-import Foreign.Index (readProp, readIndex)
+import Foreign.Index (readProp)
 import Foreign.Object (Object)
 import Foreign.Object as Object
 import JS.BigInt (BigInt)
@@ -114,13 +115,13 @@ readJSON_ ∷
 readJSON_ = hush <<< readJSON
 
 -- | JSON.stringify
-foreign import _unsafeStringify ∷ ∀ a. (Foreign -> Foreign) -> a → String
+foreign import _unsafeStringify ∷ ∀ a. Fn1 Foreign Foreign -> a → String
 
 -- | JSON.stringify with a number of spaces
-foreign import _unsafePrettyStringify ∷ ∀ a. (Foreign -> Foreign) -> Int → a → String
+foreign import _unsafePrettyStringify ∷ ∀ a. Fn1 Foreign Foreign -> Int → a → String
 
 unsafeStringify ∷ ∀ a. a → String
-unsafeStringify = _unsafeStringify unboxForJSON
+unsafeStringify = _unsafeStringify (mkFn1 unboxForJSON)
 
 -- | Write a JSON string from a type `a`.
 writeJSON ∷
@@ -128,7 +129,7 @@ writeJSON ∷
   WriteForeign a ⇒
   a →
   String
-writeJSON = _unsafeStringify unboxForJSON <<< writeImpl
+writeJSON = _unsafeStringify (mkFn1 unboxForJSON) <<< writeImpl
 
 -- | Write a JSON string from a type `a` with the specified number of spaces.
 writePrettyJSON ∷
@@ -137,7 +138,7 @@ writePrettyJSON ∷
   Int →
   a →
   String
-writePrettyJSON spaces = _unsafePrettyStringify unboxForJSON spaces <<< writeImpl
+writePrettyJSON spaces = _unsafePrettyStringify (mkFn1 unboxForJSON) spaces <<< writeImpl
 
 write ∷
   ∀ a.
