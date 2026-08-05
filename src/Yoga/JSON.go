@@ -4,11 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"gopurs/output/Foreign"
+	"gopurs/output/gopurs_runtime"
 )
 
-func _Undefined() interface{} {
-	return nil
-}
+var _Undefined = gopurs_runtime.Value{Type: 0}
 
 func _ParseJSON(payload string) interface{} {
 	var v interface{}
