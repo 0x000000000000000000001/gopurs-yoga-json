@@ -11,3 +11,5 @@
 /.idea/
 .spec-results
 .DS_Store
+.spago
+output
