@@ -49,10 +49,6 @@ package:
       githubRepo: purescript-yoga-json
 workspace:
   packageSet:
-    registry: 63.2.1
-
-workspace:
-  packageSet:
     registry: 77.7.0
   extraPackages:
     aff:
