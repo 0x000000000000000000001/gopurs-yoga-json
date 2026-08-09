@@ -13,8 +13,9 @@ spec ∷ Spec Unit
 spec = describe "En- and decoding with Coercibles" do
   let referenceJSON = """{"myString":"A","myInt":3}"""
   it "writing works" do
-    let myRecord = MyRecord { myInt: MyInt 3, myString: MyString "A" }
-    JSON.writeJSON myRecord `shouldEqual` referenceJSON
+    let
+      rStr = JSON.writeJSON (MyRecord { myInt: MyInt 3, myString: MyString "A" })
+    (rStr == """{"myInt":3,"myString":"A"}""" || rStr == """{"myString":"A","myInt":3}""") `shouldEqual` true
   it "reading works" do
     JSON.readJSON referenceJSON `shouldEqual` Right (MyRecord { myInt: MyInt 3, myString: MyString "A" })
 

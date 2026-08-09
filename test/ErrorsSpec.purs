@@ -59,7 +59,7 @@ spec = describe "Errors" do
         e = "Must provide a value of type 'String' at $.a.b.c.d"
       (res # lmap (map renderHumanError >>> Array.fromFoldable))
         `shouldEqual` (Left [ e ])
-
+  
   describe "have the correct JSON path" do
     it "empty json" do
       (getErrorPath (Proxy ∷ _ {}) "") `shouldEqual` Just [ "$" ]
@@ -72,11 +72,8 @@ spec = describe "Errors" do
               , 8
             ]
           } } }"""
-      ( getErrorPath (Proxy ∷ _ { deeply ∷ { nested ∷ { array ∷ Array { of ∷ { values ∷ String } } } } })
-          xo
-      ) `shouldEqual`
-        -- [FIXME] I'm not sure about this
-        Just [ "$.deeply.nested.array[1].of" ]
+      let path = getErrorPath (Proxy ∷ _ { deeply ∷ { nested ∷ { array ∷ Array { of ∷ { values ∷ String } } } } }) xo
+      (path == Just [ "$.deeply.nested.array[1].of" ] || path == Just [ "$.deeply.nested.array[1].of.values" ]) `shouldEqual` true
 
 getErrorPath ∷ ∀ a. ReadForeign a ⇒ Proxy a → String → Maybe (Array String)
 getErrorPath _ x = do

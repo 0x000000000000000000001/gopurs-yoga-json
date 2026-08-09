@@ -82,7 +82,8 @@ spec = describe "En- and decoding" do
         parsed = readJSON inputStr
         stringified = parsed <#> writeJSON
         expectedGo = """{"big":"18014398509481982","mediumBig":"1652955871799","number":1,"smallBig":"10"}"""
-      (stringified == Right expected || stringified == Right expectedGo) `shouldEqual` true
+        expectedGoAlt = """{"big":"18014398509481982","mediumBig":"1652955871799","number":1,"smallBig":"10"}"""
+      (stringified == Right expected || stringified == Right expectedGo || stringified == Right expectedGoAlt) `shouldEqual` true
 
     it "roundtrips BigInt (2)" do
       let
@@ -95,17 +96,45 @@ spec = describe "En- and decoding" do
         parsed = readJSON json
       parsed `shouldEqual` (Right expected)
 
-  -- describe "works with JSDate" do
-  --   it "roundtrips" do
-  --     now ← JSDate.now # liftEffect
-  --     roundtrips now
-  --     someDate ← JSDate.parse "2022-01-01:00:00:00Z" # liftEffect
-  --     let result = writeJSON someDate
-  --     let expected = show "2022-01-01T00:00:00.000Z"
-  --     result `shouldEqual` expected
+  describe "works with JSDate" do
+    it "roundtrips" do
+      now ← JSDate.now # liftEffect
+      roundtrips now
+      someDate ← JSDate.parse "2022-01-01:00:00:00Z" # liftEffect
+      let result = writeJSON someDate
+      let expected = show "2022-01-01T00:00:00.000Z"
+      result `shouldEqual` expected
 
-  
-  
+  describe "works with DateTime" do
+    it "roundtrips" do
+      now ← nowDateTime # liftEffect
+      roundtrips now
+      someDate ← JSDate.parse "2022-01-01:00:00:00Z" <#> (JSDate.toDateTime >>> fromMaybe' \_ → unsafeCrashWith "nope") # liftEffect
+      let result = writeJSON someDate
+      let expected = show "2022-01-01T00:00:00.000Z"
+      result `shouldEqual` expected
+
+  describe "works with Durations" do
+    it "roundtrips" do
+      let millis = Milliseconds 16.67
+      roundtrips millis
+      writeJSON millis `shouldEqual` "16.67"
+
+      let seconds = Seconds 60.0
+      roundtrips seconds
+      writeJSON seconds `shouldEqual` "60"
+
+      let minutes = Minutes 10.0
+      roundtrips minutes
+      writeJSON minutes `shouldEqual` "10"
+
+      let hours = Hours 24.0
+      roundtrips hours
+      writeJSON hours `shouldEqual` "24"
+
+      let days = Days 365.0
+      roundtrips days
+      writeJSON days `shouldEqual` "365"
   describe "works on record types" do
     it "roundtrips" do
       roundtrips { a: 12, b: "54" }
@@ -133,7 +162,7 @@ spec = describe "En- and decoding" do
         parsed ∷ _ (UntaggedVariant ExampleVariant)
         parsed = readJSON expected
       (un UntaggedVariant <$> parsed) `shouldEqual` Right bareVariant
-
+  
   describe "works on non empty strings" do
     it "roundtrips NonEmptyString" do
       roundtrips (nes (Proxy ∷ Proxy "Non-Empty"))
@@ -150,7 +179,7 @@ spec = describe "En- and decoding" do
       let t = mkTree "a" [ mkTree "b" [ mkLeaf "c", mkLeaf "d" ] ]
       writeJSON (ShowTree t) `shouldEqual`
         """{"value":"a","children":[{"value":"b","children":[{"value":"c"},{"value":"d"}]}]}"""
-
+  
 newtype ShowTree = ShowTree (Tree String)
 
 instance Show ShowTree where

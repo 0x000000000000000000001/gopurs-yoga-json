@@ -145,3 +145,5 @@ workspace:
       path: "../gopurs-js-date"
     js-bigints:
       path: "../gopurs-js-bigints"
+    strings-extra:
+      path: "../gopurs-strings-extra"

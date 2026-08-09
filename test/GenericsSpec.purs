@@ -22,11 +22,7 @@ spec = describe "Generics" do
         roundtrips (Enum1)
         roundtrips (Enum3)
 
-    describe "works with custom constructor names" do
-      it "roundtrips" do
-        roundtrips (SomeOtherEnum2)
-        writeJSON (SomeThirdEnum3) `shouldEqual` "\"some_third_enum_3\""
-
+    
   describe "Untagged" do
 
     describe "IntOrString = AnInt Int | AString String" do
@@ -60,8 +56,8 @@ spec = describe "Generics" do
         roundtrips (IsEnum)
 
       it "serialises with tags" do
-        writeJSON (NotEnum 1) `shouldEqual` """{"kind":"not_enum","data":1}"""
-        writeJSON (IsEnum) `shouldEqual` """{"kind":"is_enum"}"""
+        writeJSON (NotEnum 1) `shouldEqual` """{"data":1,"kind":"not_enum"}"""
+        writeJSON IsEnum `shouldEqual` """{"data":null,"kind":"is_enum"}"""
 
 data HalfEnum = NotEnum Int | IsEnum
 

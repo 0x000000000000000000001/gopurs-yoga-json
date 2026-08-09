@@ -887,6 +887,9 @@
       "strings": {
         "path": "../gopurs-strings"
       },
+      "strings-extra": {
+        "path": "../gopurs-strings-extra"
+      },
       "test": {
         "path": "../gopurs-test"
       },
@@ -1861,12 +1864,16 @@
       ]
     },
     "strings-extra": {
-      "type": "registry",
-      "version": "4.0.0",
-      "integrity": "sha256-Wlsa9A4hg4PnZYa9WsE0e820xilquVwm33nn067qNIA=",
+      "type": "local",
+      "path": "../gopurs-strings-extra",
       "dependencies": [
         "arrays",
+        "assert",
+        "console",
+        "effect",
         "foldable-traversable",
+        "integers",
+        "maybe",
         "prelude",
         "strings",
         "unicode"
