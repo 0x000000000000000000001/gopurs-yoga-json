@@ -22,8 +22,8 @@ spec = describe "Errors" do
       let
         res ∷ E (Object Int)
         res = JSON.readJSON """{ "something": "no", "else": true }"""
-        e1 = ErrorAtProperty "something" (TypeMismatch "Int" "String")
-        e2 = ErrorAtProperty "else" (TypeMismatch "Int" "Boolean")
+        e1 = ErrorAtProperty "else" (TypeMismatch "Int" "Boolean")
+        e2 = ErrorAtProperty "something" (TypeMismatch "Int" "String")
       res `shouldEqual` (Left (pure e1 <> pure e2))
 
     it "returns multiple errors for record" do
@@ -47,8 +47,8 @@ spec = describe "Errors" do
       let
         res ∷ E (Object Int)
         res = JSON.readJSON """{ "something": "no", "else": true }"""
-        e1 = "Must provide a value of type 'Int' instead of 'String' at $.something"
-        e2 = "Must provide a value of type 'Int' instead of 'Boolean' at $.else"
+        e1 = "Must provide a value of type 'Int' instead of 'Boolean' at $.else"
+        e2 = "Must provide a value of type 'Int' instead of 'String' at $.something"
       (res # lmap (map renderHumanError >>> Array.fromFoldable))
         `shouldEqual` (Left [ e1, e2 ])
 

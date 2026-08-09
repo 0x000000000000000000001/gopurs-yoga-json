@@ -26,7 +26,9 @@ func transformForStringify(v interface{}) interface{} {
 	if m, ok := v.(map[string]interface{}); ok {
 		res := make(map[string]interface{})
 		for k, val := range m {
-			res[k] = transformForStringify(val)
+			if val != Foreign.UndefinedForJSON {
+				res[k] = transformForStringify(val)
+			}
 		}
 		return res
 	}

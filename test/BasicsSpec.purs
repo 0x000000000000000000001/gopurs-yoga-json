@@ -178,7 +178,7 @@ spec = describe "En- and decoding" do
     it "encodes as expected" do
       let t = mkTree "a" [ mkTree "b" [ mkLeaf "c", mkLeaf "d" ] ]
       writeJSON (ShowTree t) `shouldEqual`
-        """{"value":"a","children":[{"value":"b","children":[{"value":"c"},{"value":"d"}]}]}"""
+        """{"children":[{"children":[{"value":"c"},{"value":"d"}],"value":"b"}],"value":"a"}"""
   
 newtype ShowTree = ShowTree (Tree String)
 

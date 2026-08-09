@@ -57,7 +57,7 @@ spec = describe "Generics" do
 
       it "serialises with tags" do
         writeJSON (NotEnum 1) `shouldEqual` """{"data":1,"kind":"not_enum"}"""
-        writeJSON IsEnum `shouldEqual` """{"data":null,"kind":"is_enum"}"""
+        writeJSON IsEnum `shouldEqual` """{"kind":"is_enum"}"""
 
 data HalfEnum = NotEnum Int | IsEnum
 
