@@ -141,3 +141,7 @@ workspace:
       path: "../gopurs-uuid"
     variant:
       path: "../gopurs-variant"
+    js-date:
+      path: "../gopurs-js-date"
+    js-bigints:
+      path: "../gopurs-js-bigints"
