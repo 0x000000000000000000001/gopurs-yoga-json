@@ -809,6 +809,12 @@
       "integers": {
         "path": "../gopurs-integers"
       },
+      "js-bigints": {
+        "path": "../gopurs-js-bigints"
+      },
+      "js-date": {
+        "path": "../gopurs-js-date"
+      },
       "js-promise": {
         "path": "../gopurs-js-promise"
       },
@@ -1344,9 +1350,8 @@
       ]
     },
     "js-bigints": {
-      "type": "registry",
-      "version": "2.2.1",
-      "integrity": "sha256-r1rE6Olv5b3JrP32lY2uKJ+eBRTsrVnC983K8VWwqe4=",
+      "type": "local",
+      "path": "../gopurs-js-bigints",
       "dependencies": [
         "integers",
         "maybe",
@@ -1354,18 +1359,13 @@
       ]
     },
     "js-date": {
-      "type": "registry",
-      "version": "8.0.0",
-      "integrity": "sha256-DNQrp4xYc8o80jtxo0aOkUeXGi6h0Xidkk2ZQ8Y4l5Y=",
+      "type": "local",
+      "path": "../gopurs-js-date",
       "dependencies": [
         "datetime",
         "effect",
-        "enums",
         "foreign",
-        "functions",
-        "integers",
-        "maybe",
-        "prelude"
+        "integers"
       ]
     },
     "lazy": {
