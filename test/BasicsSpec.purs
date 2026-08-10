@@ -30,7 +30,7 @@ import Test.Spec.Assertions (shouldEqual)
 import Test.Util (roundtrips)
 import Type.Proxy (Proxy(..))
 import Yoga.JSON (class ReadForeign, class WriteForeign, readJSON, writeJSON)
-import Yoga.JSON.Variant (TaggedVariant(..), UntaggedVariant(..))
+import Yoga.JSON.Variant (TaggedVariant, UntaggedVariant(..))
 import Yoga.Tree (Tree, mkLeaf, mkTree, showTree)
 
 spec ∷ Spec Unit
