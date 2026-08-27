@@ -3,7 +3,6 @@ package Yoga_JSON
 import (
 	"encoding/json"
 	"fmt"
-	"gopurs/output/Foreign"
 	"gopurs/output/gopurs_runtime"
 	"math/big"
 )
@@ -26,7 +25,7 @@ func transformForStringify(v interface{}) interface{} {
 	if m, ok := v.(map[string]interface{}); ok {
 		res := make(map[string]interface{})
 		for k, val := range m {
-			if val != Foreign.UndefinedForJSON {
+			if val != Foreign_UndefinedForJSON {
 				res[k] = transformForStringify(val)
 			}
 		}
@@ -43,7 +42,7 @@ func transformForStringify(v interface{}) interface{} {
 }
 
 func UnsafeStringify(data interface{}) interface{} {
-	b, err := json.Marshal(transformForStringify(Foreign.UnboxForJSON(data)))
+	b, err := json.Marshal(transformForStringify(Foreign_UnboxForJSON(data)))
 	if err != nil {
 		panic(fmt.Sprintf("JSON stringify error: %v", err))
 	}
@@ -55,7 +54,7 @@ func _UnsafePrettyStringify(spaces int, data interface{}) interface{} {
 	for i := 0; i < spaces; i++ {
 		indent += " "
 	}
-	b, err := json.MarshalIndent(transformForStringify(Foreign.UnboxForJSON(data)), "", indent)
+	b, err := json.MarshalIndent(transformForStringify(Foreign_UnboxForJSON(data)), "", indent)
 	if err != nil {
 		panic(fmt.Sprintf("JSON pretty stringify error: %v", err))
 	}
