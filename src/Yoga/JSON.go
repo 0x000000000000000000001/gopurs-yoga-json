@@ -25,9 +25,8 @@ func transformForStringify(v interface{}) interface{} {
 	if m, ok := v.(map[string]interface{}); ok {
 		res := make(map[string]interface{})
 		for k, val := range m {
-			if val != Foreign_UndefinedForJSON {
-				res[k] = transformForStringify(val)
-			}
+			// UnboxForJSON has already removed undefined fields.
+			res[k] = transformForStringify(val)
 		}
 		return res
 	}
