@@ -815,15 +815,6 @@
       "js-date": {
         "path": "../gopurs-js-date"
       },
-      "js-promise": {
-        "path": "../gopurs-js-promise"
-      },
-      "js-promise-aff": {
-        "path": "../gopurs-js-promise-aff"
-      },
-      "js-uri": {
-        "path": "../gopurs-js-uri"
-      },
       "lazy": {
         "path": "../gopurs-lazy"
       },
@@ -832,12 +823,6 @@
       },
       "node-fs": {
         "path": "../gopurs-node-fs"
-      },
-      "node-http": {
-        "path": "../gopurs-node-http"
-      },
-      "node-net": {
-        "path": "../gopurs-node-net"
       },
       "node-path": {
         "path": "../gopurs-node-path"
@@ -863,20 +848,11 @@
       "prelude": {
         "path": "../gopurs-prelude"
       },
-      "random": {
-        "path": "../gopurs-random"
-      },
       "record": {
         "path": "../gopurs-record"
       },
       "refs": {
         "path": "../gopurs-refs"
-      },
-      "run": {
-        "path": "../gopurs-run"
-      },
-      "simple-json": {
-        "path": "../gopurs-simple-json"
       },
       "spec": {
         "path": "../gopurs-spec"
@@ -890,17 +866,11 @@
       "strings-extra": {
         "path": "../gopurs-strings-extra"
       },
-      "test": {
-        "path": "../gopurs-test"
-      },
       "unfoldable": {
         "path": "../gopurs-unfoldable"
       },
       "unsafe-coerce": {
         "path": "../gopurs-unsafe-coerce"
-      },
-      "uuid": {
-        "path": "../gopurs-uuid"
       },
       "variant": {
         "path": "../gopurs-variant"

@@ -1,5 +1,14 @@
 # purescript-yoga-json
 
+## Local Go development
+
+This checkout is part of the gopurs library family. Use the
+[local Go development guide](../gopurs/README.md#develop-one-library-locally)
+for toolchain setup, sibling dependencies, Spago configuration and Go commands.
+The existing npm, Bower and Dhall commands below retain their JavaScript or
+upstream roles.
+
+
 `yoga-json` is a light-weight and simple json library for purescript. 
 
 **Note**: This library was initially forked from the amazing [simple-json](https://github.com/justinwoo/purescript-simple-json) ([MIT Licence](./LICENSE/simple-json.LICENSE)).
